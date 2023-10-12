@@ -12,9 +12,16 @@ def get_options():
 # Flask(...) needs to have get_options defined before it in the module
 app = Flask(__name__, template_folder='pages')
 
+# A cat! Used for the / path
+CAT = """
+     ^ ^<br>
+   =(   )=
+"""
+
+# See CAT above
 @app.route("/")
 def hello():
-    return "UOCIS docker demo!\n"
+    return CAT
 
 # Given a path, check whether it exists, it's forbidden, or unhandled
 @app.route("/<path:path>", methods=['GET'])
