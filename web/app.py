@@ -2,17 +2,18 @@
 John Doe's Flask API.
 """
 
-from flask import Flask
 import config
+from flask import Flask, render_template
 
-app = Flask(__name__)
 def get_options():
     return config.configuration()
+
+app = Flask(__name__, template_folder='pages')
 
 @app.route("/")
 def hello():
     return "UOCIS docker demo!\n"
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
     opts = get_options()
+    app.run(debug=opts.DEBUG, host='0.0.0.0', port=opts.PORT)
