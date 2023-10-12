@@ -4,6 +4,7 @@ John Doe's Flask API.
 
 import config
 from flask import Flask, render_template
+import os
 
 def get_options():
     return config.configuration()
@@ -14,6 +15,29 @@ app = Flask(__name__, template_folder='pages')
 @app.route("/")
 def hello():
     return "UOCIS docker demo!\n"
+
+# Given a path, check whether it exists, it's forbidden, or unhandled
+@app.route("/<path:path>", methods=['GET'])
+def serve_path(path):
+    # Handle forbidden paths, return 403
+    if '..' in path:
+        return error403_forbidden(path)
+    elif '~' in path:
+        return error403_forbidden(path)
+
+    # Make sure endpoints end with html or css
+    # Return an unimplemented error if not
+    if not path.endswith(('html', 'css')):
+        return error401_not_implemented(path)
+
+    # Check if the path actually exists
+    # Return path if it does, else handle error 404
+    pages = os.path.join(os.getcwd(), 'pages')
+    req_path = os.path.join(pages, path)
+    if os.path.exists(req_path):
+        return render_template(path, path=path)
+    else:
+        return error404_not_found(path)
 
 # Not Implemented Error Handler
 @app.errorhandler(401)
