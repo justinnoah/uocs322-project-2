@@ -5,4 +5,4 @@
 ### Contact: jnoah@uoregon.edu
 
 ### Description
-A containerized (with docker) minial flask web app similar to project 1.
+A containerized (with docker) minimal flask web app similar to project 1.
